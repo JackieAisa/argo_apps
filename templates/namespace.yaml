@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: november-app
+  labels:
+    name: november-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: november-app
+  labels:
+    app: november-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: november-app
+  template:
+    metadata:
+      labels:
+        app: november-app
+    spec:
+      containers:
+      - name: november-app
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80

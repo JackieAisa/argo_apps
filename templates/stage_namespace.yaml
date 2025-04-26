@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nginx-server-stage
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stage-applications
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/berkayh27/nov-argocd.git
+    targetRevision: 1.6.0
+    path: ./
+    helm:
+      values: |
+        global:
+          env: stage
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nginx-server-stage
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
